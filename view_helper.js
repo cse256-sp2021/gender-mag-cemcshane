@@ -159,18 +159,18 @@ function define_new_effective_permissions(id_prefix, add_info_col = false, which
         let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
         let row = $(`
         <tr id="${id_prefix}_row_${p_id}" permission_name="${p}" permission_id="${p_id}">
-            <td id="${id_prefix}_checkcell_${p_id}" class="effectivecheckcell" width="16px"></td>
-            <td id="${id_prefix}_name_${p_id}" class="effective_perm_name">${p}</td>
+            <td id="${id_prefix}_checkcell_${p_id}" class="effectivecheckcell" width="16px" style="padding-bottom: 10px;"></td>
+            <td id="${id_prefix}_name_${p_id}" class="effective_perm_name" style="padding-bottom: 10px;">${p}</td>
         </tr>
         `)
         // If we want to add an additional info column (which does nothing by default)
         if(add_info_col) {
             row.append(`
             <td id="${id_prefix}_${p_id}_info_cell" width="32px" style="text-align:right">
-                <span id="${id_prefix}_${p_id}_info_icon" class="fa fa-info-circle perm_info" permission_name="${p}" setting_container_id="${id_prefix}"/>
+                <button id="${id_prefix}_${p_id}_info_icon" class="perm_info" permission_name="${p}" setting_container_id="${id_prefix}" style="margin-left: 10px; padding: 3px;">Source</button>
             </td>`)
         }
-        effective_container.append(row)
+        effective_container.append(row)      
     }
 
     // Define how to update contents on attribute change:
@@ -479,7 +479,7 @@ function open_user_select_dialog(to_populate_id) {
 function define_new_user_select_field(id_prefix, select_button_text, on_user_change = function(selected_user){}){
     // Make the element:
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
-            <span id="${id_prefix}_field" class="ui-widget-content" style="width: 80%;display: inline-block;">&nbsp</span>
+            <span id="${id_prefix}_field" class="ui-widget-content" style="width: 80%;display: inline-block;">Select user/group</span>
             <button id="${id_prefix}_button" class="ui-button ui-widget ui-corner-all">${select_button_text}</button>
         </div>`)
 
