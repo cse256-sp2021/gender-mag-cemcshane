@@ -515,7 +515,7 @@ function get_explanation_text(explanation) {
     }
     if(explanation.file_responsible) {
         content.append(`<p>Because of permission set for file: ${get_full_path(explanation.file_responsible)}</p>`);
-        content.append(`<p>for user/group: ${get_full_path(explanation.file_responsible)}`);
+        content.append(`<p>for user/group: ${get_user_name(explanation.ace_responsible.who)}`);
     }
     else {
         content.append(`<p>Because there are no permissions set or inherited for this file.</p>`)
