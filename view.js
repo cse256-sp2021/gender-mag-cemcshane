@@ -11,9 +11,8 @@ $('#sidepanel').append(usf1);
 $('#sidepanel').append(ep1);
 let d1 = define_new_dialog('d1', 'Permission Source');
 $('.perm_info').click(function(){
-    console.log('clicked!');
     let explanation = allow_user_action(path_to_file[$('#ep1').attr('filepath')], all_users[$('#ep1').attr('username')], $(this).attr('permission_name'), true)
-    d1.text(get_explanation_text(explanation));
+    d1.html(get_explanation_text(explanation));
     d1.dialog('open');
 });
 $('.perm_info').hide();

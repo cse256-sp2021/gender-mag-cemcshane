@@ -7,7 +7,7 @@
 // Make permissions dialog:
 perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     // The following are standard jquery-ui options. See https://jqueryui.com/dialog/
-    height: 500,
+    height: 350,
     width: 400,
     buttons: {
         OK:{
@@ -18,7 +18,7 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
             }
         },
         Advanced: {
-            text: "Advanced",
+            text: "Edit Permissions",
             id: "perm-dialog-advanced-button",
             click: function() {
                 open_advanced_dialog(perm_dialog.attr('filepath'))
@@ -143,13 +143,14 @@ perm_remove_user_button.click(function(){
 })
 
 
+
 // --- Append all the elements to the permissions dialog in the right order: --- 
 perm_dialog.append(obj_name_div)
-perm_dialog.append($('<div id="permissions_user_title">Group or user names:</div>'))
+perm_dialog.append($('<div id="permissions_user_title">Add or remove users/groups:</div>'))
 perm_dialog.append(file_permission_users)
 perm_dialog.append(perm_add_user_select)
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
-perm_dialog.append(grouped_permissions)
+// perm_dialog.append(grouped_permissions)
 perm_dialog.append(advanced_expl_div)
 
 // --- Additional logic for reloading contents when needed: ---
@@ -514,7 +515,8 @@ let perm_entry_dialog = $('#permentry').dialog({
             id: "permission-entry-ok-button",
             click: function() {
                 open_advanced_dialog($('#advdialog').attr('filepath') )// redo advanced dialog (recalc permissions)
-                perm_dialog.attr('filepath', filepath) // reload contents of permissions dialog
+                perm_dialog.attr('filepath', $('#advdialog').attr('filepath'))
+                // perm_dialog.attr('filepath', filepath) // reload contents of permissions dialog
                 $( this ).dialog( "close" );
             }
         }
