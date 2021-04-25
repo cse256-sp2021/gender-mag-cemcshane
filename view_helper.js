@@ -167,7 +167,7 @@ function define_new_effective_permissions(id_prefix, add_info_col = false, which
         if(add_info_col) {
             row.append(`
             <td id="${id_prefix}_${p_id}_info_cell" width="32px" style="text-align:right">
-                <button id="${id_prefix}_${p_id}_info_icon" class="perm_info" permission_name="${p}" setting_container_id="${id_prefix}" style="margin-left: 10px; padding: 3px;">Source</button>
+                <button id="${id_prefix}_${p_id}_info_icon" class="perm_info" permission_name="${p}" setting_container_id="${id_prefix}" style="margin-left: 10px; padding: 3px;">Why?</button>
             </td>`)
         }
         effective_container.append(row)      
@@ -482,7 +482,7 @@ function open_user_select_dialog(to_populate_id) {
 function define_new_user_select_field(id_prefix, select_button_text, on_user_change = function(selected_user){}){
     // Make the element:
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
-            <span id="${id_prefix}_field" class="ui-widget-content" style="width: 80%;display: inline-block;">Select user/group</span>
+            <span id="${id_prefix}_field" class="ui-widget-content" style="width: 70%;display: inline-block;font-size: 20px;">Select user/group</span>
             <button id="${id_prefix}_button" class="ui-button ui-widget ui-corner-all">${select_button_text}</button>
         </div>`)
 
@@ -514,8 +514,8 @@ function get_explanation_text(explanation) {
         content.append(`<h4>Permission <span style="color: red;">DENIED</span></h4>`);
     }
     if(explanation.file_responsible) {
-        content.append(`<p>Because of permission set for file: ${get_full_path(explanation.file_responsible)}</p>`);
-        content.append(`<p>for user/group: ${get_user_name(explanation.ace_responsible.who)}`);
+        content.append(`<br><p>Because of permission set for file: ${get_full_path(explanation.file_responsible)}</p>`);
+        content.append(`<br><p>for user/group: <strong>${get_user_name(explanation.ace_responsible.who)}</strong>`);
     }
     else {
         content.append(`<p>Because there are no permissions set or inherited for this file.</p>`)

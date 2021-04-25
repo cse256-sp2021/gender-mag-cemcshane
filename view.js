@@ -1,14 +1,32 @@
 // ---- Define your dialogs  and panels here ----
-$('#sidepanel').append(`<h2 id="paneltitle"><h2>`);
-$('#sidepanel h2').css('padding-left', '10px');
+let stuff = $('#adv_permissions_tab');
+$('#sidepanel').append(stuff);
+// $('#sidepanel').append(`<div id="title-grp"><h2 id="paneltitle"><h2></div>`);
+// $('#sidepanel h2').css('padding-left', '10px');
 $('#sidepanel h2').css('padding-top', '10px');
 let ep1 = define_new_effective_permissions('ep1', true);
-let usf1 = define_new_user_select_field('usf1', 'Select User', function(selected_user) {
+let usf1 = define_new_user_select_field('usf1', 'Select User/Group', function(selected_user) {
     ep1.attr('username', selected_user);
     $('.perm_info').show();
 });
-$('#sidepanel').append(usf1);
-$('#sidepanel').append(ep1);
+let editButton = $(`<button>Edit Permissions</button>`);
+editButton.click(function() {
+    open_advanced_dialog(ep1.attr('filepath'));
+});
+editButton.css({'margin-top': '10px','text-align': 'center', 'cursor': 'pointer', 'background': 'none', padding: '10px', 'font-size': '16px', 'border-radius': '8px', 'border': '2px solid #008CBA', 'background': '#008CBA', color: 'white'});
+editButton.hover(
+    function(){
+        editButton.css({'background': 'none', color: '#008CBA'});
+    },
+    function(){
+        editButton.css({'background': '#008CBA', color: 'white'});
+    }
+)
+// $('#sidepanel').append(usf1);
+// $('#sidepanel').append(ep1);
+// $('#sidepanel').css({'text-align': 'center'}).append(editButton);
+ep1.css({'text-align': 'left'});
+// $('#sidepanel').append(editButton);
 let d1 = define_new_dialog('d1', 'Permission Source');
 $('.perm_info').click(function(){
     let explanation = allow_user_action(path_to_file[$('#ep1').attr('filepath')], all_users[$('#ep1').attr('username')], $(this).attr('permission_name'), true)
@@ -18,6 +36,7 @@ $('.perm_info').click(function(){
 $('.perm_info').hide();
 $('#sidepanel').hide();
 
+$('#legend-symbols').append('<p>Types of permissions:</p><p>Read: <span style="color: blue; padding-right: 10px;">■</span> Write: <span style="color: green; padding-right: 10px;">▲</span>  Modify: <span style="color: orange; padding-right: 10px;">●</span>  Execute: <span style="color: red;">◆</span></p>');
 
 // ---- Display file structure ----
 
@@ -26,14 +45,22 @@ function make_file_element(file_obj) {
     let file_hash = get_full_path(file_obj)
 
     if(file_obj.is_folder) {
+        // let folder_elem = $(`<div class='folder' id="${file_hash}_div">
+        //     <h3 id="${file_hash}_header">
+        //         <span class="oi oi-folder" id="${file_hash}_icon"/> ${file_obj.filename} 
+        //         <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
+        //             Edit
+        //         </button>
+        //         <button class="ui-button ui-widget ui-corner-all viewbutton" path="${file_hash}" id="${file_hash}_viewbutton">
+        //             View Permissions
+        //         </button>
+        //     </h3>
+        // </div>`)
         let folder_elem = $(`<div class='folder' id="${file_hash}_div">
             <h3 id="${file_hash}_header">
                 <span class="oi oi-folder" id="${file_hash}_icon"/> ${file_obj.filename} 
-                <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
-                    Edit
-                </button>
                 <button class="ui-button ui-widget ui-corner-all viewbutton" path="${file_hash}" id="${file_hash}_viewbutton">
-                    View Permissions
+                    Permissions
                 </button>
             </h3>
         </div>`)
@@ -50,13 +77,19 @@ function make_file_element(file_obj) {
         return folder_elem
     }
     else {
+        // return $(`<div class='file'  id="${file_hash}_div">
+        //     <span class="oi oi-file" id="${file_hash}_icon"/> ${file_obj.filename}
+        //     <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
+        //         Edit
+        //     </button>
+        //     <button class="ui-button ui-widget ui-corner-all viewbutton" path="${file_hash}" id="${file_hash}_viewbutton">
+        //         View Permissions
+        //     </button>
+        // </div>`)
         return $(`<div class='file'  id="${file_hash}_div">
             <span class="oi oi-file" id="${file_hash}_icon"/> ${file_obj.filename}
-            <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
-                Edit
-            </button>
             <button class="ui-button ui-widget ui-corner-all viewbutton" path="${file_hash}" id="${file_hash}_viewbutton">
-                View Permissions
+                Permissions
             </button>
         </div>`)
     }
@@ -97,7 +130,10 @@ $('.permbutton').click( function( e ) {
 $('.viewbutton').click( function( e ) {
     let path = e.currentTarget.getAttribute('path');
     ep1.attr('filepath', path);
-    $('#paneltitle').text(`Effective Permissions for ${$(this).attr('path')}`);
+    $('#paneltitle').text(`Overall Permissions for ${$(this).attr('path')}`);
+    open_advanced_dialog(path);
+    $('.viewbutton').css({'background': '#f6f6f6', 'color': 'black'});
+    $(this).css({'background': '#007fff', 'color': 'white'});
     $('#sidepanel').show();
 
     // Deal with the fact that folders try to collapse/expand when you click on their permissions button:
