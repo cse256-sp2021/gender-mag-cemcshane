@@ -1,4 +1,5 @@
 // ---- Define your dialogs  and panels here ----
+
 let stuff = $('#adv_permissions_tab');
 $('#sidepanel').append(stuff);
 // $('#sidepanel').append(`<div id="title-grp"><h2 id="paneltitle"><h2></div>`);
@@ -140,6 +141,11 @@ $('.viewbutton').click( function( e ) {
     e.stopPropagation() // don't propagate button click to element underneath it (e.g. folder accordion)
     // Emit a click for logging purposes:
     emitter.dispatchEvent(new CustomEvent('userEvent', { detail: new ClickEntry(ActionEnum.CLICK, (e.clientX + window.pageXOffset), (e.clientY + window.pageYOffset), e.target.id,new Date().getTime()) }))
+});
+
+$('.viewbutton').click(function closeOnScroll() {
+    $('.viewbutton').off("click", closeOnScroll);
+    $('#mturk-top-banner-collapse-button').click();
 });
 
 // ---- Assign unique ids to everything that doesn't have an ID ----
